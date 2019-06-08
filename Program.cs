@@ -11,14 +11,16 @@ namespace testconsoleappcosmosdb
 
     public class Program
     {
-        private const string EndpointUrl = "https://testazuredbab.documents.azure.com:443/";
-        private const string PrimaryKey = "aPEGGeYykTdoJBJK4PTlrPPvZeFbyIsYPJabiX7eo0Ex6I3IRC7hOHUGthIpds3wStwjl2w6uel1s4gbUGoz3w==";
+        //Update Cosmos DB connection string here from Azure Keys section
+        private const string EndpointUrl = "https://testazurecosmosdb2.documents.azure.com:443/";
+        private const string PrimaryKey = "uhzNSCsBpUhuuAHEmqVDNPPgTETNwRxbEqZuAPRQN4duW7yMacVYUI4x5PT7JdbnUaBxDKLEnjlA2uedhEhomw==";
+
         private DocumentClient client;
         private async Task GetStartedDemo()
         {
             client = new DocumentClient(new Uri(EndpointUrl), PrimaryKey);
-            await client.CreateDatabaseIfNotExistsAsync(new Database { Id = "FamilyDB" });
-            await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri("FamilyDB"), new DocumentCollection { Id = "FamilyCollection" });
+            //await client.CreateDatabaseIfNotExistsAsync(new Database { Id = "FamilyDB" });
+            await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri("ToDoList"), new DocumentCollection { Id = "FamilyCollection" });
             Family andersenFamily = new Family
             {
                 Id = "AndersenFamily",
@@ -45,7 +47,7 @@ namespace testconsoleappcosmosdb
                 IsRegistered = true
             };
 
-            await CreateFamilyDocumentIfNotExists("FamilyDB", "FamilyCollection", andersenFamily);
+            await CreateFamilyDocumentIfNotExists("ToDoList", "Items", andersenFamily);
 
             Family wakefieldFamily = new Family
             {
@@ -82,19 +84,19 @@ namespace testconsoleappcosmosdb
                 IsRegistered = false
             };
 
-            await CreateFamilyDocumentIfNotExists("FamilyDB", "FamilyCollection", wakefieldFamily);
+            await CreateFamilyDocumentIfNotExists("ToDoList", "Items", wakefieldFamily);
 
-            ExecuteSimpleQuery("FamilyDB", "FamilyCollection");
+            ExecuteSimpleQuery("ToDoList", "Items");
 
-            await DeleteFamilyDocument("FamilyDB", "FamilyCollection", "AndersenFamily");
+            await DeleteFamilyDocument("FamilyDB", "Items", "AndersenFamily");
 
             // Clean up - delete the database
-            await client.DeleteDatabaseAsync(UriFactory.CreateDatabaseUri("FamilyDB"));
+            //await client.DeleteDatabaseAsync(UriFactory.CreateDatabaseUri("FamilyDB"));
 
             // Update the Grade of the Andersen Family child
             andersenFamily.Children[0].Grade = 6;
-            await ReplaceFamilyDocument("FamilyDB", "FamilyCollection", "AndersenFamily", andersenFamily);
-            ExecuteSimpleQuery("FamilyDB", "FamilyCollection");
+            await ReplaceFamilyDocument("ToDoList", "Items", "AndersenFamily", andersenFamily);
+            ExecuteSimpleQuery("ToDoList", "Items");
         }
 
         private async Task ReplaceFamilyDocument(string databaseName, string collectionName, string familyName, Family updatedFamily)
@@ -217,6 +219,7 @@ namespace testconsoleappcosmosdb
 
 
         static void Main(string[] args)
+        //static void test(string[] args)
         {
             try
             {
