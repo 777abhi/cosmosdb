@@ -7,15 +7,15 @@ namespace testconsoleappcosmosdb
     class TestConnectionSQL
     {
         // static void Main(string[] args)
-        void test(string[] args)
+        public void test(string expected)
         {
             try
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "testserverab.database.windows.net";
-                builder.UserID = "test";
-                builder.Password = "Overload!1";
-                builder.InitialCatalog = "testdb2ab";
+                builder.DataSource = "";
+                builder.UserID = "";
+                builder.Password = "";
+                builder.InitialCatalog = "";
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
@@ -24,7 +24,7 @@ namespace testconsoleappcosmosdb
 
                     connection.Open();
                     StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT TOP 20 pc.Name as CategoryName, p.name as ProductName ");
+                    sb.Append("SELECT TOP 1 pc.Name as CategoryName, p.name as ProductName ");
                     sb.Append("FROM [SalesLT].[ProductCategory] pc ");
                     sb.Append("JOIN [SalesLT].[Product] p ");
                     sb.Append("ON pc.productcategoryid = p.productcategoryid;");

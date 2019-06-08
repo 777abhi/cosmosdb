@@ -12,8 +12,8 @@ namespace testconsoleappcosmosdb
     public class Program
     {
         //Update Cosmos DB connection string here from Azure Keys section
-        private const string EndpointUrl = "https://testazurecosmosdb2.documents.azure.com:443/";
-        private const string PrimaryKey = "uhzNSCsBpUhuuAHEmqVDNPPgTETNwRxbEqZuAPRQN4duW7yMacVYUI4x5PT7JdbnUaBxDKLEnjlA2uedhEhomw==";
+        private const string EndpointUrl = "";
+        private const string PrimaryKey = "";
 
         private DocumentClient client;
         private async Task GetStartedDemo()
@@ -86,17 +86,28 @@ namespace testconsoleappcosmosdb
 
             await CreateFamilyDocumentIfNotExists("ToDoList", "Items", wakefieldFamily);
 
-            ExecuteSimpleQuery("ToDoList", "Items");
+            String Expected = ExecuteSimpleQuery("ToDoList", "Items");
 
-            await DeleteFamilyDocument("FamilyDB", "Items", "AndersenFamily");
+            //await DeleteFamilyDocument("FamilyDB", "Items", "AndersenFamily");
 
             // Clean up - delete the database
             //await client.DeleteDatabaseAsync(UriFactory.CreateDatabaseUri("FamilyDB"));
 
             // Update the Grade of the Andersen Family child
-            andersenFamily.Children[0].Grade = 6;
-            await ReplaceFamilyDocument("ToDoList", "Items", "AndersenFamily", andersenFamily);
-            ExecuteSimpleQuery("ToDoList", "Items");
+            //andersenFamily.Children[0].Grade = 6;
+            //await ReplaceFamilyDocument("ToDoList", "Items", "AndersenFamily", andersenFamily);
+            //ExecuteSimpleQuery("ToDoList", "Items");
+
+
+
+
+            //Setup SQL Db Connection - 
+
+            Console.WriteLine("Expected Output-->" + Expected);
+
+            TestConnectionSQL sqlobj = new TestConnectionSQL();
+            sqlobj.test("1234");
+
         }
 
         private async Task ReplaceFamilyDocument(string databaseName, string collectionName, string familyName, Family updatedFamily)
@@ -181,23 +192,23 @@ namespace testconsoleappcosmosdb
             }
         }
 
-        private void ExecuteSimpleQuery(string databaseName, string collectionName)
+        private String ExecuteSimpleQuery(string databaseName, string collectionName)
         {
             // Set some common query options.
             FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
 
             // Find the Andersen family by its LastName.
-            IQueryable<Family> familyQuery = client.CreateDocumentQuery<Family>(
-                UriFactory.CreateDocumentCollectionUri(databaseName, collectionName), queryOptions)
-                .Where(f => f.LastName == "Andersen");
+            //IQueryable<Family> familyQuery = client.CreateDocumentQuery<Family>(
+             //   UriFactory.CreateDocumentCollectionUri(databaseName, collectionName), queryOptions)
+              //  .Where(f => f.LastName == "Andersen");
 
             // Execute the query synchronously. 
             // You could also execute it asynchronously using the IDocumentQuery<T> interface.
-            Console.WriteLine("Running LINQ query...");
-            foreach (Family family in familyQuery)
-            {
-                Console.WriteLine($"\tRead {family}");
-            }
+            //Console.WriteLine("Running LINQ query...");
+            //foreach (Family family in familyQuery)
+            //{
+             //   Console.WriteLine($"\tRead {family}");
+            //}
 
             // Now execute the same query using direct SQL.
             IQueryable<Family> familyQueryInSql = client.CreateDocumentQuery<Family>(
@@ -209,10 +220,13 @@ namespace testconsoleappcosmosdb
             foreach (Family family in familyQueryInSql)
             {
                 Console.WriteLine($"\tRead {family}");
+                
             }
+            
 
             Console.WriteLine("Press any key to continue ...");
             Console.ReadKey();
+            return "{family}";
         }
 
 
