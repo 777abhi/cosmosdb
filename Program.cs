@@ -14,13 +14,14 @@ namespace testconsoleappcosmosdb
         //Update Cosmos DB connection string here from Azure Keys section
         private const string EndpointUrl = "";
         private const string PrimaryKey = "";
-
         private DocumentClient client;
+
         private async Task GetStartedDemo()
         {
             client = new DocumentClient(new Uri(EndpointUrl), PrimaryKey);
             //await client.CreateDatabaseIfNotExistsAsync(new Database { Id = "FamilyDB" });
-            await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri("ToDoList"), new DocumentCollection { Id = "FamilyCollection" });
+            //await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri("ToDoList"), new DocumentCollection { Id = "FamilyCollection" });
+
             Family andersenFamily = new Family
             {
                 Id = "AndersenFamily",
@@ -106,7 +107,7 @@ namespace testconsoleappcosmosdb
             Console.WriteLine("Expected Output-->" + Expected);
 
             TestConnectionSQL sqlobj = new TestConnectionSQL();
-            sqlobj.test("1234");
+            sqlobj.test(Expected);
 
         }
 
@@ -199,15 +200,15 @@ namespace testconsoleappcosmosdb
 
             // Find the Andersen family by its LastName.
             //IQueryable<Family> familyQuery = client.CreateDocumentQuery<Family>(
-             //   UriFactory.CreateDocumentCollectionUri(databaseName, collectionName), queryOptions)
-              //  .Where(f => f.LastName == "Andersen");
+            //   UriFactory.CreateDocumentCollectionUri(databaseName, collectionName), queryOptions)
+            //  .Where(f => f.LastName == "Andersen");
 
             // Execute the query synchronously. 
             // You could also execute it asynchronously using the IDocumentQuery<T> interface.
             //Console.WriteLine("Running LINQ query...");
             //foreach (Family family in familyQuery)
             //{
-             //   Console.WriteLine($"\tRead {family}");
+            //   Console.WriteLine($"\tRead {family}");
             //}
 
             // Now execute the same query using direct SQL.
@@ -220,9 +221,9 @@ namespace testconsoleappcosmosdb
             foreach (Family family in familyQueryInSql)
             {
                 Console.WriteLine($"\tRead {family}");
-                
+
             }
-            
+
 
             Console.WriteLine("Press any key to continue ...");
             Console.ReadKey();

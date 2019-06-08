@@ -37,6 +37,16 @@ namespace testconsoleappcosmosdb
                             while (reader.Read())
                             {
                                 Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+
+
+
+                                if (reader.GetString(0) == expected) {
+                                    Console.WriteLine("Test Passed");
+                                }
+                                else{
+                                    Console.WriteLine("Test Failed");
+                                }
+                                
                             }
                         }
                     }
