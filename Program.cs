@@ -217,17 +217,20 @@ namespace testconsoleappcosmosdb
                 "SELECT * FROM Family WHERE Family.LastName = 'Andersen'",
                 queryOptions);
 
+
+            String Expected = "0";
             Console.WriteLine("Running direct SQL query...");
             foreach (Family family in familyQueryInSql)
             {
                 Console.WriteLine($"\tRead {family}");
+                Expected = $"\tRead {family}";
 
             }
 
 
             Console.WriteLine("Press any key to continue ...");
             Console.ReadKey();
-            return "{family}";
+            return Expected;
         }
 
 

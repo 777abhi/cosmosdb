@@ -24,10 +24,10 @@ namespace testconsoleappcosmosdb
 
                     connection.Open();
                     StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT TOP 1 pc.Name as CategoryName, p.name as ProductName ");
-                    sb.Append("FROM [SalesLT].[ProductCategory] pc ");
-                    sb.Append("JOIN [SalesLT].[Product] p ");
-                    sb.Append("ON pc.productcategoryid = p.productcategoryid;");
+                    sb.Append("SELECT [DESCRIPTION],[DESCRIPTION] FROM [SalesLT].[ProductDescription] WHERE PRODUCTDESCRIPTIONID = 3 ");
+                    //sb.Append("FROM [SalesLT].[ProductCategory] pc ");
+                    //sb.Append("JOIN [SalesLT].[Product] p ");
+                    //sb.Append("ON pc.productcategoryid = p.productcategoryid;");
                     String sql = sb.ToString();
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -36,9 +36,10 @@ namespace testconsoleappcosmosdb
                         {
                             while (reader.Read())
                             {
-                                Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
-
-
+                                //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                                Console.WriteLine("Actual -->"+reader.GetString(0));
+                                Console.WriteLine("Expected -->" +expected);
+                                Console.WriteLine("--------------------------------------------");
 
                                 if (reader.GetString(0) == expected) {
                                     Console.WriteLine("Test Passed");
