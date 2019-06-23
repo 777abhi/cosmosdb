@@ -12,11 +12,17 @@ namespace testconsoleappcosmosdb
     public class Program
     {
 
+        static string sourceFolder = @"D:\myFiles\c\csvfiles";
+        static string destinationFile = @"D:\myFiles\c\csvfiles\CSV_Files_Combined.csv";
+
+
 
         public static void Main(string[] args) {
 
-            Program p = new Program();
-            p.Test();
+
+       
+            CSVHelpers.CombineCsvFiles(sourceFolder, destinationFile);
+
 
         }
 
@@ -24,8 +30,7 @@ namespace testconsoleappcosmosdb
         public void Test()
         {
 
-            string sourceFolder = @"D:\myFiles\c\csvfiles";
-            string destinationFile = @"D:\myFiles\c\csvfiles\CSV_Files_Combined.csv";
+
 
             // Specify wildcard search to match CSV files that will be combined
             string[] filePaths = Directory.GetFiles(sourceFolder, "CSV_File_Number?.csv");
