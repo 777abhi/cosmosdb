@@ -4,7 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using testconsoleappcosmosdb.helpers;
 
 namespace testconsoleappcosmosdb
 {
@@ -28,9 +28,11 @@ namespace testconsoleappcosmosdb
 
             // SQLHelpers.ConnectToSQL();
 
-            string str = "Data Source=(local);Initial Catalog=AdventureWorksDW2014;"
-            + "Integrated Security=SSPI";
-            SQLHelpers.ReadOrderData(str);
+            //string str = "Data Source=(local);Initial Catalog=AdventureWorksDW2014;"
+            //+ "Integrated Security=SSPI";
+            //SQLHelpers.ReadOrderData(str);
+
+            CreateSQLTable.CreateSQLTablesFromMultipleCSVWithDifferentDataAndSameColumnsName();
 
 
 

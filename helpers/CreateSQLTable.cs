@@ -99,5 +99,84 @@ namespace testconsoleappcosmosdb.helpers
             }
 
         }
+
+        public static void CreateSQLTablesFromMultipleCSVWithDifferentDataAndSameColumnsName() {
+
+
+            string datetime = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string LogFolder = Path.GetTempPath();
+            try
+            {
+
+                //Declare Variables and provide values
+                string SourceFolderPath = Path.GetTempPath();
+                string FileExtension = ".csv";
+                string FileDelimiter = ",";
+                string TableName = "dbo.Customer";
+                string ArchiveFolder = Path.GetTempPath();
+
+
+                //Get files from folder
+                string[] fileEntries = Directory.GetFiles(SourceFolderPath, "*" + FileExtension);
+                foreach (string fileName in fileEntries)
+                {
+
+                    //Create Connection to SQL Server
+                    SqlConnection SQLConnection = new SqlConnection();
+                    SQLConnection.ConnectionString = "Data Source = (local); Initial Catalog =AdventureWorksDW2014; "
+                                          + "Integrated Security=true;";
+
+                    int counter = 0;
+                    string line;
+                    string ColumnList = "";
+
+                    System.IO.StreamReader SourceFile =
+                    new System.IO.StreamReader(fileName);
+
+                    SQLConnection.Open();
+                    while ((line = SourceFile.ReadLine()) != null)
+                    {
+                        if (counter == 0)
+                        {
+                            //By using Header Row, Build Column List
+                            ColumnList = "[" + line.Replace(FileDelimiter, "],[") + "],[tablename]";
+
+                        }
+                        else
+                        {
+
+                            //Build and Execute Insert Statement to insert record
+                            string query = "Insert into " + TableName + " (" + ColumnList + ") ";
+                            query += "VALUES('" + line.Replace(FileDelimiter, "','") + "','"+fileName+"')";
+
+                            SqlCommand SQLCmd = new SqlCommand(query, SQLConnection);
+                            SQLCmd.ExecuteNonQuery();
+                        }
+
+                        counter++;
+                    }
+
+                    SourceFile.Close();
+                    SQLConnection.Close();
+                    //move the file to archive folder after adding datetime to it
+                    File.Move(fileName, ArchiveFolder +
+                        (fileName.Replace(SourceFolderPath, "")).Replace(FileExtension, "")
+                        + "_" + datetime + FileExtension);
+
+                }
+            }
+            catch (Exception exception)
+            {
+                // Create Log File for Errors
+                using (StreamWriter sw = File.CreateText(LogFolder
+                    + "\\" + "ErrorLog_" + datetime + ".log"))
+                {
+                    sw.WriteLine(exception.ToString());
+
+                }
+
+            }
+        }
+
     }
 }

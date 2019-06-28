@@ -106,9 +106,7 @@ namespace testconsoleappcosmosdb
             //Setup SQL Db Connection - 
 
             Console.WriteLine("Expected Output-->" + Expected);
-
-            TestConnectionSQL sqlobj = new TestConnectionSQL();
-            sqlobj.test(Expected);
+            SQLHelpers.ConnectToSQLANDQuery(Expected);
 
         }
 
