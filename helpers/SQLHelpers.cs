@@ -1,13 +1,46 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
 namespace testconsoleappcosmosdb
 {
-    class TestConnectionSQL
+    internal class SQLHelpers
     {
-        // static void Main(string[] args)
-        public void test(string expected)
+
+
+             public static void ReadOrderData(string connectionString)
+            {
+                string queryString =
+                    "SELECT * FROM [dbo].[DimAccount];";
+
+                using (SqlConnection connection =
+                           new SqlConnection(connectionString))
+                {
+                    SqlCommand command =
+                        new SqlCommand(queryString, connection);
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // Call Read before accessing data.
+                    while (reader.Read())
+                    {
+                        ReadSingleRow((IDataRecord)reader);
+                    }
+
+                // Call Close when done reading.
+                Console.WriteLine("Please press any key to continue!! Thanks!"); Console.ReadKey();
+                 reader.Close();
+                }
+            }
+
+            public static void ReadSingleRow(IDataRecord record)
+            {
+                Console.WriteLine(String.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", record[0], record[1], record[2], record[3], record[4], record[5], record[6], record[7]));
+            }
+
+        public static void ConnectToSQLANDQuery(string expected)
         {
             try
             {
@@ -37,17 +70,19 @@ namespace testconsoleappcosmosdb
                             while (reader.Read())
                             {
                                 //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
-                                Console.WriteLine("Actual -->"+reader.GetString(0));
-                                Console.WriteLine("Expected -->" +expected);
+                                Console.WriteLine("Actual -->" + reader.GetString(0));
+                                Console.WriteLine("Expected -->" + expected);
                                 Console.WriteLine("--------------------------------------------");
 
-                                if (reader.GetString(0) == expected) {
+                                if (reader.GetString(0) == expected)
+                                {
                                     Console.WriteLine("Test Passed");
                                 }
-                                else{
+                                else
+                                {
                                     Console.WriteLine("Test Failed");
                                 }
-                                
+
                             }
                         }
                     }
@@ -59,5 +94,7 @@ namespace testconsoleappcosmosdb
             }
             Console.ReadLine();
         }
+
+
     }
-}
+    }
