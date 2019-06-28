@@ -20,8 +20,18 @@ namespace testconsoleappcosmosdb
         public static void Main(string[] args) {
 
 
-       
-            CSVHelpers.CombineCsvFiles(sourceFolder, destinationFile);
+
+            //CSVHelpers.CombineCsvFiles(sourceFolder, destinationFile);
+
+
+            //CSVHelpers.DeleteFiles();
+
+            // SQLHelpers.ConnectToSQL();
+
+            string str = "Data Source=(local);Initial Catalog=AdventureWorksDW2014;"
+            + "Integrated Security=SSPI";
+            SQLHelpers.ReadOrderData(str);
+
 
 
         }

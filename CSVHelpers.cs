@@ -29,6 +29,27 @@ namespace testconsoleappcosmosdb
                 CombineCsvFiles(filePaths, destinationFile);
         }
 
+        internal static void DeleteFiles()
+        {
+
+
+
+            string File_Path = Path.GetTempPath()+@"test.csv";
+
+
+            using (var stream = File.Open(File_Path, FileMode.OpenOrCreate)) {
+                File.Create("Test");
+            }
+
+            using (var stream = File.Open(File_Path, FileMode.Open)) {
+                //File.Delete(File_Path);
+            }
+            File.Delete(File_Path);
+
+               
+
+        }
+
         public static void CombineCsvFiles(string[] filePaths, string destinationFile)
         {
             StreamWriter fileDest = new StreamWriter(destinationFile, true);
