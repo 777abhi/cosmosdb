@@ -29,8 +29,8 @@ namespace testconsoleappcosmosdb
                     }
 
                 // Call Close when done reading.
-                Console.ReadKey();
-                    reader.Close();
+                Console.WriteLine("Please press any key to continue!! Thanks!"); Console.ReadKey();
+                 reader.Close();
                 }
             }
 
