@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -33,19 +34,21 @@ namespace testconsoleappcosmosdb
 
 
 
-            string File_Path = Path.GetTempPath()+@"test.csv";
+            string File_Path = Path.GetTempPath() + @"test.csv";
 
 
-            using (var stream = File.Open(File_Path, FileMode.OpenOrCreate)) {
+            using (var stream = File.Open(File_Path, FileMode.OpenOrCreate))
+            {
                 File.Create("Test");
             }
 
-            using (var stream = File.Open(File_Path, FileMode.Open)) {
+            using (var stream = File.Open(File_Path, FileMode.Open))
+            {
                 //File.Delete(File_Path);
             }
             File.Delete(File_Path);
 
-               
+
 
         }
 
@@ -111,8 +114,46 @@ namespace testconsoleappcosmosdb
 
             dt.ToCSV(destinationFile);
         }
-    }
 
+        //You are working as C# developer, you need to write a program that can read file's information such as
+
+        //  FolderPath
+        //  FileName
+        //  LastWriteTime
+        //  CreateTime
+        //  FileSizeinKB
+        //from a table and write into SQL Server table.Also as part of file information, you would like to insert folder from which we are reading the file properties.
+
+        public static void GetFileProperties()
+        {
+            string[] files = Directory.GetFiles(Path.GetTempPath(), "*"+ConfigurationManager.AppSettings.Get("FileExtension"));
+
+            foreach (string filename in files)
+            {
+
+                FileInfo file = new FileInfo(filename);
+                Console.WriteLine(file.Attributes);
+                Console.WriteLine(file.CreationTime);
+                Console.WriteLine(file.CreationTimeUtc);
+                Console.WriteLine(file.Directory);
+                Console.WriteLine(file.DirectoryName);
+                Console.WriteLine(file.Exists);
+                Console.WriteLine(file.Extension);
+                Console.WriteLine(file.FullName);
+                Console.WriteLine(file.IsReadOnly);
+                Console.WriteLine(file.LastAccessTime);
+                Console.WriteLine(file.LastAccessTimeUtc);
+                Console.WriteLine(file.LastWriteTime);
+                Console.WriteLine(file.LastWriteTimeUtc);
+                Console.WriteLine(file.Length);
+
+                Console.WriteLine(file.Name);
+                Console.WriteLine(file.ToString());
+
+
+            }
+        }
+    }
 
 
     public static class DataTableHelper
@@ -162,6 +203,8 @@ namespace testconsoleappcosmosdb
 
 
     }
+
+
 
 
 }

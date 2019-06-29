@@ -32,8 +32,9 @@ namespace testconsoleappcosmosdb
 
             //SQLHelpers.ReadOrderData(ConfigurationManager.ConnectionStrings["Local_SQL_Connection"].ConnectionString);
 
-            CreateSQLTable.CreateSQLTablesFromMultipleCSVWithDifferentDataAndSameColumnsName();
+            //CreateSQLTable.CreateSQLTablesFromMultipleCSVWithDifferentDataAndSameColumnsName();
 
+            CSVHelpers.GetFileProperties();
 
 
         }
