@@ -112,8 +112,8 @@ namespace testconsoleappcosmosdb.helpers
                                                             
                 //Declare Variables and provide values
                 string SourceFolderPath = Path.GetTempPath();
-                string FileExtension = ConfigurationManager.AppSettings.Get("Key0");
-                string FileDelimiter = ",";
+                string FileExtension = ConfigurationManager.AppSettings.Get("FileExtension");
+                string FileDelimiter = ConfigurationManager.AppSettings.Get("FileDelimiter");
                 string TableName = "dbo.Customer";
                 string ArchiveFolder = Path.GetTempPath();
 
@@ -137,7 +137,12 @@ namespace testconsoleappcosmosdb.helpers
 
                     //Create Connection to SQL Server
                     SqlConnection SQLConnection = new SqlConnection();
-                   
+
+
+                    //Get the file properties from the file like FolderPath , FileName , LastWriteTime, CreateTime, FileSizeinKB 
+                    FileInfo FileInformatoin = new FileInfo(fileName);
+                    Console.WriteLine("File picked up for processing-->" + FileInformatoin.Name);
+
                     SQLConnection.ConnectionString = ConfigurationManager.ConnectionStrings["Local_SQL_Connection"].ConnectionString;
 
 
@@ -162,7 +167,7 @@ namespace testconsoleappcosmosdb.helpers
 
                             //Build and Execute Insert Statement to insert record
                             string query = "Insert into " + TableName + " (" + ColumnList + ") ";
-                            query += "VALUES('" + line.Replace(FileDelimiter, "','") + "','"+fileName+"')";
+                            query += "VALUES('" + line.Replace(FileDelimiter, "','") + "','"+ FileInformatoin.Name + "')";
 
                             SqlCommand SQLCmd = new SqlCommand(query, SQLConnection);
                             SQLCmd.ExecuteNonQuery();
