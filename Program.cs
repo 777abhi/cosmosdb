@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using testconsoleappcosmosdb.helpers;
+using System.Configuration;
 
 namespace testconsoleappcosmosdb
 {
@@ -28,9 +29,8 @@ namespace testconsoleappcosmosdb
 
             // SQLHelpers.ConnectToSQL();
 
-            //string str = "Data Source=(local);Initial Catalog=AdventureWorksDW2014;"
-            //+ "Integrated Security=SSPI";
-            //SQLHelpers.ReadOrderData(str);
+
+            //SQLHelpers.ReadOrderData(ConfigurationManager.ConnectionStrings["Local_SQL_Connection"].ConnectionString);
 
             CreateSQLTable.CreateSQLTablesFromMultipleCSVWithDifferentDataAndSameColumnsName();
 

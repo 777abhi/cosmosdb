@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Data.SqlClient;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace testconsoleappcosmosdb.helpers
 {
@@ -107,13 +109,25 @@ namespace testconsoleappcosmosdb.helpers
             string LogFolder = Path.GetTempPath();
             try
             {
-
+                                                            
                 //Declare Variables and provide values
                 string SourceFolderPath = Path.GetTempPath();
-                string FileExtension = ".csv";
+                string FileExtension = ConfigurationManager.AppSettings.Get("Key0");
                 string FileDelimiter = ",";
                 string TableName = "dbo.Customer";
                 string ArchiveFolder = Path.GetTempPath();
+
+
+                NameValueCollection sAll;
+                sAll = ConfigurationManager.AppSettings;
+
+                foreach (string s in sAll.AllKeys)
+                    Console.WriteLine("Key: " + s + " Value: " + sAll.Get(s));
+                Console.ReadLine();
+
+
+
+
 
 
                 //Get files from folder
@@ -123,8 +137,9 @@ namespace testconsoleappcosmosdb.helpers
 
                     //Create Connection to SQL Server
                     SqlConnection SQLConnection = new SqlConnection();
-                    SQLConnection.ConnectionString = "Data Source = (local); Initial Catalog =AdventureWorksDW2014; "
-                                          + "Integrated Security=true;";
+                   
+                    SQLConnection.ConnectionString = ConfigurationManager.ConnectionStrings["Local_SQL_Connection"].ConnectionString;
+
 
                     int counter = 0;
                     string line;
