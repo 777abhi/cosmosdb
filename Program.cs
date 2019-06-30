@@ -32,9 +32,11 @@ namespace testconsoleappcosmosdb
             //CreateSQLTable.CreateSQLTablesFromMultipleCSVWithDifferentDataAndSameColumnsName();
 
             //CSVHelpers.GetFileProperties();
-            CSVHelpers.CombineCsvFiles(Path.GetTempPath(), Path.GetTempPath());
-            SQLHelpers.CreateTableInSQLDatabaseUsingAnyCSV();
+            //CSVHelpers.CombineCsvFiles(Path.GetTempPath(), Path.GetTempPath());
+            //SQLHelpers.CreateTableInSQLDatabaseUsingAnyCSV();
 
+
+            JsonHelpers.testJSON();
 
         }
 
