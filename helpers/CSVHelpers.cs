@@ -12,7 +12,7 @@ namespace testconsoleappcosmosdb
     public static class CSVHelpers
     {
 
-        public void CombineMultipleSameCSVintoOne()
+        public static void CombineMultipleSameCSVintoOne()
         {
 
 
@@ -50,7 +50,7 @@ namespace testconsoleappcosmosdb
             foreach (T element in source)
                 action(element);
         }
-        public static void CombineCsvFiles(string sourceFolder, string destinationFile, string searchPattern = "*.csv", bool isMismatched = true)
+        public static void CombineCsvFiles(string sourceFolder, string destinationFile, string searchPattern = "Expected_*.csv", bool isMismatched = true)
         {
             // Specify wildcard search to match CSV files that will be combined
             string[] filePaths = Directory.GetFiles(sourceFolder, searchPattern);
@@ -117,13 +117,20 @@ namespace testconsoleappcosmosdb
             for (i = 0; i < filePaths.Length; i++)
             {
                 string file = filePaths[i];
+                FileInfo fileInformation = new FileInfo(file);
                 combinedheaders.UnionWith(File.ReadLines(file).First().Split(splitter));
+                combinedheaders.Add(fileInformation.Name.Replace(".csv",""));
+
+
             }
             var hdict = combinedheaders.ToDictionary(y => y, y => new List<object>());
 
             string[] combinedHeadersArray = combinedheaders.ToArray();
             for (i = 0; i < filePaths.Length; i++)
             {
+                string file = filePaths[i];
+                FileInfo fileInformation = new FileInfo(file);
+
                 var fileheaders = File.ReadLines(filePaths[i]).First().Split(splitter);
                 var notfileheaders = combinedheaders.Except(fileheaders);
 
@@ -135,7 +142,7 @@ namespace testconsoleappcosmosdb
                     }
                     foreach (string header in notfileheaders)
                     {
-                        hdict[header].Add(null);
+                        hdict[header].Add(fileInformation.Name);
                     }
 
                 });
@@ -224,7 +231,7 @@ namespace testconsoleappcosmosdb
                 sb.AppendLine(string.Join(",", fields));
             }
 
-            File.WriteAllText(destinationfile, sb.ToString());
+            File.WriteAllText(destinationfile+"Expected.csv", sb.ToString());
         }
 
 
