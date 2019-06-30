@@ -12,6 +12,37 @@ namespace testconsoleappcosmosdb
     public static class CSVHelpers
     {
 
+        public void CombineMultipleSameCSVintoOne()
+        {
+
+
+
+            // Specify wildcard search to match CSV files that will be combined
+            string[] filePaths = Directory.GetFiles(ConfigurationManager.AppSettings.Get("SourceFolder"), "CSV_File_Number?.csv");
+            StreamWriter fileDest = new StreamWriter(ConfigurationManager.AppSettings.Get("destinationFile"), true);
+
+            int i;
+            for (i = 0; i < filePaths.Length; i++)
+            {
+                string file = filePaths[i];
+
+                string[] lines = File.ReadAllLines(file);
+
+                if (i > 0)
+                {
+                    lines = lines.Skip(1).ToArray(); // Skip header row for all but first file
+                }
+
+                foreach (string line in lines)
+                {
+                    fileDest.WriteLine(line);
+                }
+            }
+
+            fileDest.Close();
+
+        }
+
         public static void ForEach<T>(
             this IEnumerable<T> source,
             Action<T> action)
