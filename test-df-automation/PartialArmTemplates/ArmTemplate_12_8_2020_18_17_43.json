@@ -32,8 +32,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"url": "https://reqbin.com/echo",
-							"method": "GET",
-							"headers": {}
+							"method": "GET"
 						}
 					}
 				],
