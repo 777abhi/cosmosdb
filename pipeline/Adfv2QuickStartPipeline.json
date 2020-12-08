@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Web1",
+				"name": "Web2",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
